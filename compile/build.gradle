@@ -1,0 +1,21 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly 'com.google.android:android:4.1.1.4'
+
+    implementation project(':annotation')
+}
+
+task makeJar(type: Jar) {
+    archiveName = 'monkeyServiceCompile.jar'
+    from(project.zipTree('build/libs/compile.jar'))
+    from(project.zipTree('libs/annotation.jar'))
+    from(project.zipTree('libs/tools.jar'))
+    from(project.zipTree('libs/javapoet-1.11.1.jar'))
+    destinationDir = file('build/libs')
+}
+makeJar.dependsOn(build)
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
